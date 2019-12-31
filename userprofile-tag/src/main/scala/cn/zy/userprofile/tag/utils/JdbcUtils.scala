@@ -18,4 +18,15 @@ object JdbcUtils {
 
         false
     }
+
+    /**
+     * 更新mysql记录，如果不存在，则插入记录
+     * @param tagId
+     * @param dataDate
+     * @return
+     */
+    def selectTagCalcIsSuccess(tagId: String, dataDate: String): Boolean = {
+
+        false
+    }
 }
