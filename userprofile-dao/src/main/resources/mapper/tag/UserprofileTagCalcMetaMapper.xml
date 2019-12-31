@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zy.userprofile.dao.mysql.mapper.tag.UserprofileTagCalcMetaMapper">
+  <resultMap id="BaseResultMap" type="cn.zy.userprofile.dao.mysql.pojo.tag.UserprofileTagCalcMeta">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="tag_theme" jdbcType="VARCHAR" property="tagTheme" />
+    <result column="tag_type" jdbcType="VARCHAR" property="tagType" />
+    <result column="is_valid" jdbcType="TINYINT" property="isValid" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.zy.userprofile.dao.mysql.pojo.tag.UserprofileTagCalcMetaWithBLOBs">
+    <result column="tag_ids" jdbcType="LONGVARCHAR" property="tagIds" />
+    <result column="calc_sql" jdbcType="LONGVARCHAR" property="calcSql" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, tag_theme, tag_type, is_valid
+  </sql>
+  <sql id="Blob_Column_List">
+    tag_ids, calc_sql
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from userprofile_tag_calc_meta
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from userprofile_tag_calc_meta
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.zy.userprofile.dao.mysql.pojo.tag.UserprofileTagCalcMetaWithBLOBs">
+    insert into userprofile_tag_calc_meta (id, tag_theme, tag_type, 
+      is_valid, tag_ids, calc_sql
+      )
+    values (#{id,jdbcType=INTEGER}, #{tagTheme,jdbcType=VARCHAR}, #{tagType,jdbcType=VARCHAR}, 
+      #{isValid,jdbcType=TINYINT}, #{tagIds,jdbcType=LONGVARCHAR}, #{calcSql,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.zy.userprofile.dao.mysql.pojo.tag.UserprofileTagCalcMetaWithBLOBs">
+    insert into userprofile_tag_calc_meta
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="tagTheme != null">
+        tag_theme,
+      </if>
+      <if test="tagType != null">
+        tag_type,
+      </if>
+      <if test="isValid != null">
+        is_valid,
+      </if>
+      <if test="tagIds != null">
+        tag_ids,
+      </if>
+      <if test="calcSql != null">
+        calc_sql,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="tagTheme != null">
+        #{tagTheme,jdbcType=VARCHAR},
+      </if>
+      <if test="tagType != null">
+        #{tagType,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null">
+        #{isValid,jdbcType=TINYINT},
+      </if>
+      <if test="tagIds != null">
+        #{tagIds,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="calcSql != null">
+        #{calcSql,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.zy.userprofile.dao.mysql.pojo.tag.UserprofileTagCalcMetaWithBLOBs">
+    update userprofile_tag_calc_meta
+    <set>
+      <if test="tagTheme != null">
+        tag_theme = #{tagTheme,jdbcType=VARCHAR},
+      </if>
+      <if test="tagType != null">
+        tag_type = #{tagType,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null">
+        is_valid = #{isValid,jdbcType=TINYINT},
+      </if>
+      <if test="tagIds != null">
+        tag_ids = #{tagIds,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="calcSql != null">
+        calc_sql = #{calcSql,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.zy.userprofile.dao.mysql.pojo.tag.UserprofileTagCalcMetaWithBLOBs">
+    update userprofile_tag_calc_meta
+    set tag_theme = #{tagTheme,jdbcType=VARCHAR},
+      tag_type = #{tagType,jdbcType=VARCHAR},
+      is_valid = #{isValid,jdbcType=TINYINT},
+      tag_ids = #{tagIds,jdbcType=LONGVARCHAR},
+      calc_sql = #{calcSql,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.zy.userprofile.dao.mysql.pojo.tag.UserprofileTagCalcMeta">
+    update userprofile_tag_calc_meta
+    set tag_theme = #{tagTheme,jdbcType=VARCHAR},
+      tag_type = #{tagType,jdbcType=VARCHAR},
+      is_valid = #{isValid,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
