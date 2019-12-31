@@ -77,6 +77,11 @@
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.hudi</groupId>
+            <artifactId>hudi-spark</artifactId>
+        </dependency>
+
     </dependencies>
 
     <profiles>
