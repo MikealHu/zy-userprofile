@@ -1,8 +1,7 @@
-package cn.zy.userprofile.tag
+package cn.zy.userprofile.tag.task
 
 import java.util.concurrent.{LinkedBlockingQueue, ThreadPoolExecutor, TimeUnit}
 
-import cn.zy.userprofile.common.utils.DateUtils
 import cn.zy.userprofile.common.utils.date.{DateTimeFormat, DateUtils}
 import cn.zy.userprofile.spark.utils.SparkSQLUtils
 import cn.zy.userprofile.spark.utils.SparkSQLUtils._
