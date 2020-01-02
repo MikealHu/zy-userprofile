@@ -15,6 +15,7 @@
         <module>userprofile-spark</module>
         <module>userprofile-dw</module>
         <module>userprofile-tag</module>
+        <module>userprofile-monitor</module>
     </modules>
 
     <properties>
@@ -37,6 +38,7 @@
         <okhttp.version>3.14.0</okhttp.version>
         <fastjson.version>1.2.47</fastjson.version>
         <commons-lang3.version>3.4</commons-lang3.version>
+        <kafka-clients.version>2.4.0</kafka-clients.version>
     </properties>
 
     <dependencyManagement>
@@ -177,6 +179,12 @@
                 <groupId>org.apache.hudi</groupId>
                 <artifactId>hudi-spark</artifactId>
                 <version>${hudi.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.kafka</groupId>
+                <artifactId>kafka-clients</artifactId>
+                <version>${kafka-clients.version}</version>
             </dependency>
 
         </dependencies>
