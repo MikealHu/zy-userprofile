@@ -1,4 +1,4 @@
-package cn.zy.userprofile.common.utils;
+package cn.zy.userprofile.common.utils.date;
 
 /**
  * author: hufenggang

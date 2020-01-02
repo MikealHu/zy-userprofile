@@ -2,7 +2,7 @@ package cn.zy.userprofile.dw.dim
 
 import java.util.Properties
 
-import cn.zy.userprofile.common.utils.{DateTimeFormat, DateUtils}
+import cn.zy.userprofile.common.utils.date.{DateTimeFormat, DateUtils}
 import cn.zy.userprofile.spark.utils.SparkSQLUtils
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.SaveMode.Overwrite
