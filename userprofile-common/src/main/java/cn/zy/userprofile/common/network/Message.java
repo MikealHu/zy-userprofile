@@ -6,7 +6,7 @@ package cn.zy.userprofile.common.network;
 public interface Message {
 
     enum Type {
-        MonitorMessageSuccess(1),MonitorMessageFailure(1);
+        MonitorMessageSuccess(1),MonitorMessageFailure(2),MonitorMessageWarn(3);
 
         private final byte id;
 
