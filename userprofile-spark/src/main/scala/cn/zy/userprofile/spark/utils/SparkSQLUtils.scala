@@ -12,6 +12,8 @@ import org.apache.spark.sql.SparkSession
  */
 object SparkSQLUtils {
 
+    val lock = new Object
+
     val KryoSerializer = "org.apache.spark.serializer.KryoSerializer"
 
     /**
@@ -150,6 +152,41 @@ object SparkSQLUtils {
         }
 
         sparkSession
+    }
+
+    /**
+     * 获取一个新的SparkSession对象
+     *
+     * @return SparkSession对象
+     */
+    def getNewSparkSession(): SparkSession = {
+
+        lock.synchronized {
+
+            clearSparkSession()
+
+            val conf = new SparkConf()
+            conf.setAppName("up_ab_test_usergroup_grouping")
+            conf.set("spark.serializer", "org.apache.spark.serializer.JavaSerializer")
+            conf.set("spark.dynamicAllocation.enabled", "false")
+            conf.set("spark.scheduler.mode", "FAIR")
+
+            val sparkSession = getSparkSession(conf)
+
+            sparkSession.catalog.setCurrentDatabase("dw")
+            sparkSession.catalog.refreshTable("dw_profile_tag_usergroup_ABtest")
+
+            sparkSession
+        }
+    }
+
+    private def clearSparkSession() = {
+        SparkSession.clearDefaultSession()
+        SparkSession.clearActiveSession()
+    }
+
+    def refreshTable(tableName: String) = {
+
     }
 
     /**

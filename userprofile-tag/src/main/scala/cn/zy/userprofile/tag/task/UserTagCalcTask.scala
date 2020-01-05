@@ -5,6 +5,7 @@ import java.util.concurrent.{LinkedBlockingQueue, ThreadPoolExecutor, TimeUnit}
 import cn.zy.userprofile.common.utils.date.{DateTimeFormat, DateUtils}
 import cn.zy.userprofile.spark.utils.SparkSQLUtils
 import cn.zy.userprofile.spark.utils.SparkSQLUtils._
+import cn.zy.userprofile.tag.thread.TagCalcThread
 import cn.zy.userprofile.tag.utils.{JdbcUtils, TagUtils}
 import com.google.common.base.Strings
 import com.google.common.util.concurrent.ThreadFactoryBuilder
@@ -105,37 +106,4 @@ object UserTagCalcTask {
 
     }
 
-}
-
-
-class TagCalcThread(
-                       row: Row,
-                       dataDate: String,
-                       targetTab: String
-                   ) extends Runnable {
-    override def run(): Unit = {
-        var flag: Boolean = true
-
-        // 状态检查
-        val tagIdArray: Array[String] = row.getAs[String]("tag_ids").split(",")
-        for (tagId <- tagIdArray) {
-            if (!JdbcUtils.selectTagCalcIsSuccess(tagId, dataDate)) {
-                flag = false
-            }
-        }
-
-        if (flag) {
-            return
-        }
-
-        // 获取参数
-        val tagTheme = row.getAs[String]("tag_theme")
-        val tagCalcSql = row.getAs[String]("calc_sql")
-
-        Thread.currentThread().setName(s"TagCalcThread tagTheme == ${tagTheme}")
-        val sparkSession = UserTagCalcTask.getNewSparkSession()
-        import sparkSession.sql
-
-        val df: DataFrame = sql(TagUtils.getHql(tagCalcSql, targetTab))
-    }
 }
