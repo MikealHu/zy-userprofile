@@ -5,12 +5,13 @@ import java.util.concurrent.{LinkedBlockingQueue, ThreadPoolExecutor, TimeUnit}
 import cn.zy.userprofile.common.utils.date.{DateTimeFormat, DateUtils}
 import cn.zy.userprofile.spark.utils.SparkSQLUtils
 import cn.zy.userprofile.spark.utils.SparkSQLUtils._
+import cn.zy.userprofile.tag.entity.TagCalcWorkFlow
 import cn.zy.userprofile.tag.thread.TagCalcThread
-import cn.zy.userprofile.tag.utils.{JdbcUtils, TagUtils}
+import cn.zy.userprofile.tag.utils.JdbcUtils
 import com.google.common.base.Strings
 import com.google.common.util.concurrent.ThreadFactoryBuilder
 import org.apache.spark.SparkConf
-import org.apache.spark.sql.{DataFrame, Row, SparkSession}
+import org.apache.spark.sql.SparkSession
 import org.slf4j.{Logger, LoggerFactory}
 
 /**
@@ -77,7 +78,7 @@ object UserTagCalcTask {
         val tagCalcMetaRdd = sql(
             s"""
                |SELECT
-               |	tag_theme,tag_type,tag_ids,calc_sql
+               |	tag_theme,tag_type,tag_ids,calc_sql,
                |FROM
                |	v_tag_calc_meta
                |WHERE
@@ -85,6 +86,10 @@ object UserTagCalcTask {
                |""".stripMargin).rdd
             .filter(x => !Strings.isNullOrEmpty(x.getAs[String]("calc_sql")))
             .cache()
+
+        // 解析标签计算元数据，构建DAG
+        val workflows: List[TagCalcWorkFlow] = List()
+
 
         // 更新mysql监控表 (如果不存在，插入新记录)
         tagCalcMetaRdd.map(_.getAs[String]("tag_ids").toString).flatMap(_.split(",")).collect().foreach(x => {
@@ -94,7 +99,7 @@ object UserTagCalcTask {
         tagCalcMetaRdd.foreach(row => {
             tagCalcComputePoll.submit( new TagCalcThread(
                 row,
-                "",
+                dataDate,
                 ""
             ))
         })

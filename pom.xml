@@ -16,6 +16,7 @@
         <module>userprofile-dw</module>
         <module>userprofile-tag</module>
         <module>userprofile-monitor</module>
+        <module>userprofile-usergroup</module>
     </modules>
 
     <properties>
